@@ -8,14 +8,14 @@ public enum Sexes
     Femeni,
     Pop,
 }
-public class Animals_peixera
+public abstract class Animals_peixera
 {
-    private int X;
-    private int Y;
-    private int DirX;
-    private int DirY;
-    Random r = new Random();
-    private bool viu = true;
+    protected int X;
+    protected int Y;
+    protected int DirX;
+    protected int DirY;
+    Random R = new Random();
+    protected bool viu = true;
     public Sexes Sexe {get; set;}
 
 
@@ -30,7 +30,7 @@ public class Animals_peixera
     
     public virtual void Direccio()
     {
-        int n = r.Next(0, 4);
+        int n = R.Next(0, 4);
         switch (n)
         {
             case 0:
@@ -53,9 +53,11 @@ public class Animals_peixera
         viu = false;
     }
 
-    public void Mou()
+    public virtual void Mou()
     {
         X = (X + DirX) %20;
         Y = (Y + DirY) %20;
     }
+
+    public abstract Animals_peixera? HeTrobatUnAltre(Animals_peixera altre);
 }
