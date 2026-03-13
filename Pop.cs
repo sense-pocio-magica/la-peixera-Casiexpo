@@ -1,120 +1,100 @@
 namespace Peixera_Virtual;
 
-public class Pop: Animals_peixera
+public class Pop : Animals_peixera
 {
-    private int PosicioX;
-    private int PosicioY;
-    private string Direccio_De_Rotacio;
     Random R = new Random();
-    
+
+    bool Horari;
+
     public Pop(int x, int y, Sexes h) : base(x, y, h)
     {
-        
-    }
+        CollocarAlPerimetre();
 
-    private void DireccioDelPop()
-    {
-        int DireccioRotacio = R.Next(1, 2);
-        switch (DireccioRotacio)
+        int n = R.Next(0, 2);
+
+        if (n == 0)
         {
-            case 1:
-                Direccio_De_Rotacio = "Horari";
-                break;
-            case 2:
-                Direccio_De_Rotacio = "AntiHorari";
-                break;
+            Horari = true;
+        }
+        else
+        {
+            Horari = false;
         }
     }
 
-    private void ApareixerPop()
+    public void CollocarAlPerimetre()
     {
-        int OnApareixer = R.Next(0, 3);
-        switch(OnApareixer)
+        int costat = R.Next(0, 4);
+
+        if (costat == 0)
         {
-            case 0:
-                PosicioX = 0;
-                break;
-            case 1:
-                PosicioX = 19;
-                break;
-            case 2:
-                PosicioY = 0;
-                break;
-            case 3:
-                PosicioY = 19;
-                break;
+            X = 0;
+        }
+        else if (costat == 1)
+        {
+            X = 19;
+        }
+        else if (costat == 2)
+        {
+            Y = 0;
+        }
+        else
+        {
+            Y = 19;
         }
     }
-    
-    //if ((posiciox, posicio.y) == (0,0))
-    // while (y < 19)
-    // {
-    //y ++
-    // }
 
-    private void Moviment()
+    public override void Mou()
     {
-        if (Direccio_De_Rotacio == "AntiHorari")
+        if (Horari)
         {
-            if ((PosicioX, PosicioY) == (0, 0))
+            if (X == 0 && Y > 0)
             {
-                while (PosicioY < 19)
-                {
-                    PosicioY++;
-                }
+                Y--;
             }
-            else if ((PosicioX, PosicioY) == (0, 19))
+            else if (Y == 0 && X < 19)
             {
-                while (PosicioX < 19)
-                {
-                    PosicioX++;
-                }
+                X++;
             }
-            else if ((PosicioX, PosicioY) == (19, 19))
+            else if (X == 19 && Y < 19)
             {
-                while (PosicioY < 0)
-                {
-                    PosicioY--;
-                }
+                Y++;
             }
-            else if ((PosicioX, PosicioY) == (19, 0))
+            else if (Y == 19 && X > 0)
             {
-                while (PosicioX < 0)
-                {
-                    PosicioX--;
-                }
+                X--;
             }
         }
-        else if (Direccio_De_Rotacio == "Horari")
+        else
         {
-            if ((PosicioX, PosicioY) == (0, 0))
+            if (X == 0 && Y < 19)
             {
-                while (PosicioX < 19)
-                {
-                    PosicioX++;
-                }
+                Y++;
             }
-            else if ((PosicioX, PosicioY) == (19, 0))
+            else if (Y == 19 && X < 19)
             {
-                while (PosicioY < 19)
-                {
-                    PosicioY++;
-                }
+                X++;
             }
-            else if ((PosicioX, PosicioY) == (19, 19))
+            else if (X == 19 && Y > 0)
             {
-                while (PosicioX < 0)
-                {
-                    PosicioX--;
-                }
+                Y--;
             }
-            else if ((PosicioX, PosicioY) == (0, 19))
+            else if (Y == 0 && X > 0)
             {
-                while (PosicioY < 0)
-                {
-                    PosicioY--;
-                }
+                X--;
             }
+        }
+    }
+
+    public void CanviarDireccio()
+    {
+        if (Horari)
+        {
+            Horari = false;
+        }
+        else
+        {
+            Horari = true;
         }
     }
 
@@ -122,19 +102,16 @@ public class Pop: Animals_peixera
     {
         if (altre is Pop)
         {
-            if (Direccio_De_Rotacio == "Horari")
-            {
-                Direccio_De_Rotacio = "AntiHorari";
-            }
-            else if (Direccio_De_Rotacio == "AntiHorari")
-            {
-                Direccio_De_Rotacio = "Horari";
-            }
+            CanviarDireccio();
+
+            Pop p = (Pop)altre;
+            p.CanviarDireccio();
         }
         else if (altre is Tauro)
         {
             Mata();
         }
+
         return null;
     }
 }

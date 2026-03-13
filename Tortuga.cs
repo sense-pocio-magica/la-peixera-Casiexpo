@@ -1,15 +1,21 @@
 namespace Peixera_Virtual;
 
-public class Tortuga: Animals_peixera
+public class Tortuga : Animals_peixera
 {
     Random R = new Random();
+
     public Tortuga(int x, int y, Sexes h) : base(x, y, h)
     {
+
     }
 
     public override Animals_peixera? HeTrobatUnAltre(Animals_peixera altre)
     {
-        if (altre is Tortuga)
+        if (altre is Tauro)
+        {
+
+        }
+        else if (altre is Tortuga)
         {
             if (Sexe == altre.Sexe)
             {
@@ -18,18 +24,19 @@ public class Tortuga: Animals_peixera
             }
             else
             {
-                int Sexe_Nova_Tortuga = R.Next(1, 2);
+                int sexeNou = R.Next(0, 2);
 
-                if (Sexe_Nova_Tortuga == 1)
+                if (sexeNou == 0)
                 {
-                    return new Peix(X, Y, Sexes.Masculi);
+                    return new Tortuga(X, Y, Sexes.Masculi);
                 }
                 else
                 {
-                    return new Peix(X, Y, Sexes.Femeni);
+                    return new Tortuga(X, Y, Sexes.Femeni);
                 }
             }
         }
+
         return null;
     }
 }
